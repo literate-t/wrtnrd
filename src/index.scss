@@ -1,0 +1,13 @@
+// 전체 레이아웃
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(241, 242, 242);
+}
+
+.layout {
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+}
