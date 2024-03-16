@@ -1,0 +1,79 @@
+@import "./_utils.scss";
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: $backgroundColor;
+  min-height: 100vh;
+}
+
+.layout {
+  position: relative;
+}
+
+// Navbar start
+.nav__offset {
+  height: 3.5rem;
+}
+
+.nav__home {
+  box-sizing: border-box;
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  left: 0;
+  right:0;
+  top:0;
+
+  padding: 0 0.5rem;
+
+  width: 100%;
+  height: 3.5rem;
+
+  background-color: white;
+  box-shadow: 0 3px 6px rgba(0,0,0,.04);
+
+  .nav__logo {
+    font-size: 2rem;
+    color: #0033CC;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .nav__search {
+    border: 1px solid #dee0e1;
+    outline: none;
+    border-radius: 4px;
+    width: 30%;
+    padding: 8px 2px;
+    font-size: 1rem;
+
+    &:focus {
+      border-color: #2e69ff;
+    }
+  }
+
+  .nav__items {
+    display: flex;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+    
+    a {
+      cursor: pointer;
+      text-decoration: none;
+    }
+  }
+}
+// Navbar end
+
+.main {
+  margin: 0 auto;
+  max-width: 600px;
+
+  &--container {
+    padding-top: 1rem;
+  }
+}
