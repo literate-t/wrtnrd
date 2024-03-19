@@ -1,1 +1,8 @@
-$backgroundColor: #F1F2F2
+$backgroundColor: #F1F2F2;
+$buttonFocusColor: #2e69ff;
+$defaultInputBorder: #dee0e1;
+
+@mixin inputBorderStyle($color: $defaultInputBorder) {
+  border: 1px solid $color;
+  outline: none;
+}
