@@ -62,7 +62,15 @@ body {
     gap: 0.5rem;
     
     div {
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
       cursor: pointer;
+
+      &:hover {
+        background-color: $backgroundColor;
+        margin-left: -3px;
+        font-weight: 600;
+      }
     }
   }
 }
