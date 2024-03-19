@@ -15,8 +15,8 @@ const NavBar = () => {
         <input className="nav__search" />
         <div className="nav__items">
           <div onClick={() => router.push("/edit")}>Edit</div>
-          <div onClick={() => router.push("/signin")}>SignIn</div>
-          <div onClick={() => router.push("/mypage")}>MyPage</div>
+          <div onClick={() => router.push("/signin")}>Sign in</div>
+          <div onClick={() => router.push("/mypage")}>My page</div>
         </div>
       </div>
     </div>
