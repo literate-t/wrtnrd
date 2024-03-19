@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const NavBar = () => {
@@ -15,9 +14,9 @@ const NavBar = () => {
         </div>
         <input className="nav__search" />
         <div className="nav__items">
-          <Link href="/edit">Edit</Link>
-          <Link href="/signin">SignIn</Link>
-          <Link href="/mypage">MyPage</Link>
+          <div onClick={() => router.push("/edit")}>Edit</div>
+          <div onClick={() => router.push("/signin")}>SignIn</div>
+          <div onClick={() => router.push("/mypage")}>MyPage</div>
         </div>
       </div>
     </div>
