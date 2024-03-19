@@ -43,7 +43,7 @@ const SignInForm = () => {
           value={formik.values.username}
           className={styles.input}
         />
-        <label htmlFor="username" className={styles.label}>
+        <label htmlFor="password" className={styles.label}>
           Password
         </label>
         <input
