@@ -1,17 +1,12 @@
 "use client";
 
 import styles from "./SignUpForm.module.scss";
-import { useRouter } from "next/navigation";
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 
 interface FormValue {
   email: string;
   password: string;
-  confirmPassword: string;
-}
-
-interface Error {
   confirmPassword: string;
 }
 
@@ -37,8 +32,6 @@ const signupSchema = Yup.object().shape({
 });
 
 const SignUpForm = () => {
-  const router = useRouter();
-
   return (
     <Formik
       initialValues={initialValues}
