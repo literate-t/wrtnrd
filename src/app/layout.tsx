@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import NavBar from "./NavBar";
 import "@/app/index.scss";
+import TanstackProvider from "@/providers/TanstackProvider";
+import RecoilRootWrapper from "@/Wrappers/RecoilRootWrapper";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,10 +17,12 @@ const RootLayout = ({
   return (
     <html lang="en">
       <body>
-        <div>
-          <NavBar />
-          <main>{children}</main>
-        </div>
+        <RecoilRootWrapper>
+          <TanstackProvider>
+            <NavBar />
+            <main>{children}</main>
+          </TanstackProvider>
+        </RecoilRootWrapper>
       </body>
     </html>
   );
