@@ -3,21 +3,22 @@
 import styles from "./SignUpForm.module.scss";
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 
 interface FormValue {
-  email: string;
+  username: string;
   password: string;
   confirmPassword: string;
 }
 
 const initialValues: FormValue = {
+  username: "",
   password: "",
   confirmPassword: "",
-  email: "",
 };
 
 const signupSchema = Yup.object().shape({
-  email: Yup.string().email("Invalid email address").required("Required"),
+  username: Yup.string().email("Invalid email address").required("Required"),
   password: Yup.string()
     .min(8, "At least 8 characters")
     .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
@@ -37,18 +38,31 @@ const SignUpForm = () => {
       initialValues={initialValues}
       validationSchema={signupSchema}
       onSubmit={async (values: FormValue) => {
-        console.log(values);
+        try {
+          const resp = await axios("http://localhost:8081/signup", {
+            method: "POST",
+            data: values,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+
+          if (resp.status == 200) {
+            window.location.href = "/";
+          }
+        } catch (e) {
+          console.error("Error", e);
+        }
       }}
     >
       {({ errors, touched }) => (
         <Form className={styles.form}>
-          <label htmlFor="email" className={styles.label}>
+          <label htmlFor="username" className={styles.label}>
             Email
           </label>
-          <Field id="email" name="email" className={styles.input} />
-          {/*<ErrorMessage name="email" className={styles.error} />*/}
-          {errors.email && touched.email ? (
-            <div className={styles.error}>{errors.email}</div>
+          <Field id="username" name="username" className={styles.input} />
+          {errors.username && touched.username ? (
+            <div className={styles.error}>{errors.username}</div>
           ) : null}
           <label htmlFor="password" className={styles.label}>
             Password
