@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import styles from "./SignInForm.module.scss";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 interface FormValue {
   username: string;
@@ -25,8 +26,22 @@ const SignInForm = () => {
   const formik = useFormik<FormValue>({
     initialValues,
     validationSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       console.log(values);
+
+      try {
+        const resp = await axios("http://localhost:8081/login", {
+          method: "POST",
+          data: values,
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        });
+
+        console.log(resp);
+      } catch (e) {
+        console.error("Error", e);
+      }
     },
   });
   return (
