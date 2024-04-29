@@ -30,13 +30,17 @@ const SignInForm = () => {
       console.log(values);
 
       try {
-        const resp = await axios("http://localhost:8081/login", {
-          method: "POST",
-          data: values,
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        });
+        const resp = await axios(
+          "http://localhost:8080/api/auth/authenticate",
+          {
+            method: "POST",
+            data: values,
+            headers: {
+              "Content-Type": "application/json",
+            },
+            withCredentials: true,
+          }
+        );
 
         console.log(resp);
       } catch (e) {
@@ -69,16 +73,17 @@ const SignInForm = () => {
           value={formik.values.password}
           className={styles.input}
         />
-        <button type="submit" className={styles.button}>
-          Submit
+        <button type="submit" className={styles.signin__button}>
+          Sign in
         </button>
       </form>
       <div className={styles.signup}>
-        <button onClick={() => router.push("/signup")} className={styles.form}>
-          SignUp
+        <button
+          onClick={() => router.push("/signup")}
+          className={styles.signup__button}
+        >
+          Register
         </button>
-        <button className={styles.google}>Google</button>
-        <button className={styles.naver}>Naver</button>
       </div>
     </div>
   );
