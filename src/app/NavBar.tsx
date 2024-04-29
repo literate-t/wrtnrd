@@ -1,9 +1,19 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const NavBar = () => {
   const router = useRouter();
+
+  const pathName = usePathname();
+
+  // TODO target url이 있을 경우에 session storage에 저장한다
+  const saveCurrentPath = () => {
+    console.log(pathName);
+  };
+
+  useEffect(saveCurrentPath, [pathName]);
 
   return (
     <div className="nav">
