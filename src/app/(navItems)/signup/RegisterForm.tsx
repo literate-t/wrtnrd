@@ -1,6 +1,6 @@
 "use client";
 
-import styles from "./SignUpForm.module.scss";
+import styles from "./RegisterForm.module.scss";
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -32,14 +32,14 @@ const signupSchema = Yup.object().shape({
     .required("Required"),
 });
 
-const SignUpForm = () => {
+const RegisterForm = () => {
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={signupSchema}
       onSubmit={async (values: FormValue) => {
         try {
-          const resp = await axios("http://localhost:8081/signup", {
+          const resp = await axios("http://localhost:8080/api/auth/register", {
             method: "POST",
             data: values,
             headers: {
@@ -90,7 +90,7 @@ const SignUpForm = () => {
             <div className={styles.error}>{errors.confirmPassword}</div>
           ) : null}
           <button type="submit" className={styles.button}>
-            Sign up
+            Submit
           </button>
         </Form>
       )}
@@ -98,4 +98,4 @@ const SignUpForm = () => {
   );
 };
 
-export default SignUpForm;
+export default RegisterForm;

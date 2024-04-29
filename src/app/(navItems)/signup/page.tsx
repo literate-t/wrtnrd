@@ -1,10 +1,10 @@
-import SignUpForm from "@/app/(navItems)/signup/SignUpForm";
+import RegisterForm from "@/app/(navItems)/signup/RegisterForm";
 
 const Signup = () => {
   return (
     <main className="main">
       <div className="main--container">
-        <SignUpForm />
+        <RegisterForm />
       </div>
     </main>
   );
