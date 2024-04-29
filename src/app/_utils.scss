@@ -6,3 +6,21 @@ $defaultInputBorder: #dee0e1;
   border: 1px solid $color;
   outline: none;
 }
+
+@mixin inputBasicButtonStyle($color: $buttonFocusColor) {
+  width: 100%;
+  margin-top: 1.5rem;
+  border: 1px solid #dee0e1;
+  outline: none;
+  height: 48px;
+  border-radius: 8px;
+  color: white;
+  padding: 8px 2px;
+  font-size: 1rem;
+  background-color: #387ADF;
+  cursor: pointer;
+
+  &:focus {
+    border-color: $buttonFocusColor;
+  }
+}
