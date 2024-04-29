@@ -23,24 +23,13 @@
   height: 36px;
 }
 
-.button {
-  margin-top: 1.5rem;
-  border: 1px solid #dee0e1;
-  outline: none;
-  height: 48px;
-  border-radius: 8px;
-  color: white;
-  padding: 8px 2px;
-  font-size: 1rem;
-  background-color: #387ADF;
+.signin__button {
+  @include inputBasicButtonStyle();
 
-  &:focus {
-    border-color: $buttonFocusColor;
-  }
 }
 
 .signup {
-  margin-top: 2rem;
+  margin-top: 1rem;
   display: flex;
   justify-content: space-between;
   gap: 0.5rem;
@@ -48,28 +37,12 @@
   .form {
     background-color: #FEFEFE;
   }
+}
 
-  .google {
-    background-color: #FF2020;
-    color: white;
-  }
+.signup__button {
+  @include inputBasicButtonStyle();
 
-  .naver {
-    background-color: #03c75a;
-    color: white;
-  }
-
-  button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid #E0E0E0;
-    outline: none;
-    padding: 0.8rem 2rem;
-    border-radius: 0.3em;
-    width: 100%;
-    line-height: 1rem;
-    font-size: 1rem;
-    cursor: pointer;
-  }
+  margin-top: 0;
+  color: #0033CC;
+  background-color: #FEFEFE;
 }
