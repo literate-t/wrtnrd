@@ -4,7 +4,8 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import styles from "./SignInForm.module.scss";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import axios from "@/utils/axios";
+import { locate } from "@/utils/common";
 
 interface FormValue {
   username: string;
@@ -41,6 +42,10 @@ const SignInForm = () => {
             withCredentials: true,
           }
         );
+
+        if (resp.status == 200) {
+          locate("/");
+        }
 
         console.log(resp);
       } catch (e) {

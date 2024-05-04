@@ -3,7 +3,8 @@
 import styles from "./RegisterForm.module.scss";
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
+import axios from "@/utils/axios";
+import { locate } from "@/utils/common";
 
 interface FormValue {
   username: string;
@@ -39,7 +40,7 @@ const RegisterForm = () => {
       validationSchema={signupSchema}
       onSubmit={async (values: FormValue) => {
         try {
-          const resp = await axios("http://localhost:8080/api/auth/register", {
+          const resp = await axios("/auth/register", {
             method: "POST",
             data: values,
             headers: {
@@ -48,7 +49,7 @@ const RegisterForm = () => {
           });
 
           if (resp.status == 200) {
-            window.location.href = "/";
+            locate("/");
           }
         } catch (e) {
           console.error("Error", e);
