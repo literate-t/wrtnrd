@@ -2,7 +2,6 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import axios from "@/utils/axios";
 import { KEY_SIGN_IN, TRUE } from "@/utils/constants";
 import { locate } from "@/utils/common";
 
@@ -42,18 +41,7 @@ const NavBar = () => {
           {!isAuthenticated && (
             <div onClick={() => router.push("/signin")}>Sign in</div>
           )}
-          <div
-            onClick={() =>
-              axios("/auth/test", {
-                method: "GET",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              })
-            }
-          >
-            Test
-          </div>
+          <div onClick={() => router.push("/test")}>Test</div>
         </div>
       </div>
     </div>
