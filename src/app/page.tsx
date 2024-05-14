@@ -1,12 +1,12 @@
-import PostForm from "@/components/PostForm";
-import PostBox from "@/components/PostBox";
+import PostForm from "@/components/posts/PostForm";
+import PostBoxList from "@/components/posts/PostBoxList";
 
 const Home = () => {
   return (
     <main className="main">
       <div className="main--container">
         <PostForm />
-        <PostBox />
+        <PostBoxList />
       </div>
     </main>
   );
