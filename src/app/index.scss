@@ -8,6 +8,10 @@ body {
   min-height: 100vh;
 }
 
+body * {
+box-sizing: border-box;
+}
+
 .layout {
   position: relative;
 }
@@ -83,4 +87,8 @@ body {
   &--container {
     padding-top: 1rem;
   }
+}
+
+.divider {
+  border-top: 1px solid #dee0e1;
 }
