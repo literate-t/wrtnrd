@@ -1,0 +1,73 @@
+@use "@/app/utils" as *;
+
+.post-form {
+  width: 100%;
+  border: 1px solid $defaultInputBorder;
+  border-radius: $defaultRadius;
+  padding: 1rem 1.5rem;
+  background-color: $defaultWhite;
+
+  &__textarea {
+    width: inherit;
+    min-height: 10rem;
+    padding: 0.5rem 0.5rem;
+    outline: none;
+    resize: none;
+    border: 1px solid $defaultInputBorder;
+    border-radius: 8px;
+    background-color: #FBFBFC;
+
+    word-break: break-all;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+
+    &::placeholder {
+      color: #CCCCCC;
+    }
+  }
+
+  &__button {
+    padding: 0.3rem 0.5rem;
+    background-color: $defaultWhite;
+    border: none;
+    border-radius: $defaultRadius;
+  }
+}
+
+.post {
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.5rem 1rem;
+  width: 100%;
+  border: 1px solid $defaultInputBorder;
+  border-radius: $defaultRadius;
+  background-color: $defaultWhite;
+
+  &__profile {
+
+  }
+
+  &__name {
+    font-size: 0.9rem;
+  }
+
+  &__desc {
+    font-size: 0.8rem;
+    color: #636466;
+    margin-bottom: 0.2rem;
+  }
+
+  &__content {
+
+  }
+
+  &__header {
+    margin-top: 1rem;
+    font-size: 1.3rem;
+    font-weight: bold;
+  }
+
+  &__body {
+    margin-top: 0.3rem;
+    font-size: 0.9rem;
+  }
+}
