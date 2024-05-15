@@ -8,7 +8,7 @@ const PostBox = ({ post }: PostBoxProps) => {
     <div className="post">
       <div className="post__profile">
         <div className="post__name">{post?.author}</div>
-        <div className="post__desc">{post?.desc}</div>
+        <div className="post__desc">{post?.description}</div>
       </div>
       <div className="divider" />
       <div className="post__content">
