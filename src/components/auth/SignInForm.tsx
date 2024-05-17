@@ -3,9 +3,10 @@
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import styles from "./SignInForm.module.scss";
-import { useRouter } from "next/navigation";
 import axios from "@/utils/axios";
-import { locate } from "@/utils/common";
+import { useSetRecoilState } from "recoil";
+import { authAtoms } from "@/atoms/authAtoms";
+import { useRouter } from "next/navigation";
 
 interface FormValue {
   username: string;
@@ -24,6 +25,7 @@ const validationSchema = Yup.object({
 
 const SignInForm = () => {
   const router = useRouter();
+  const setAuth = useSetRecoilState(authAtoms);
   const formik = useFormik<FormValue>({
     initialValues,
     validationSchema,
@@ -44,7 +46,12 @@ const SignInForm = () => {
         );
 
         if (resp.status == 200) {
-          locate("/");
+          setAuth({
+            id: resp.data.id,
+            email: resp.data.email,
+          });
+
+          router.replace("/");
         }
 
         console.log(resp);
