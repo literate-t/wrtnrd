@@ -1,4 +1,4 @@
-import RegisterForm from "@/app/(navItems)/signup/RegisterForm";
+import RegisterForm from "@/components/auth/RegisterForm";
 
 const Signup = () => {
   return (
