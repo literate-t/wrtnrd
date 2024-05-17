@@ -1,4 +1,4 @@
-@use "@/app/utils" as *;
+@use "utils" as *;
 
 .container {
   margin: 20% auto 0;
@@ -6,7 +6,6 @@
 }
 
 .form {
-  margin: 20% auto 0;
   max-width: 400px;
   display: flex;
   flex-direction: column;
@@ -24,10 +23,26 @@
   height: 36px;
 }
 
-.error {
-  color: red;
+.signin__button {
+  @include inputBasicButtonStyle();
+
 }
 
-.button {
+.signup {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+
+  .form {
+    background-color: #FEFEFE;
+  }
+}
+
+.signup__button {
   @include inputBasicButtonStyle();
+
+  margin-top: 0;
+  color: #0033CC;
+  background-color: #FEFEFE;
 }
