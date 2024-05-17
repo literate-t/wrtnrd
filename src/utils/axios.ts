@@ -15,6 +15,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use((config) => {
   config.withCredentials = true;
+  config.headers["Content-Type"] = "application/json";
 
   return config;
 });
@@ -25,6 +26,7 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error) => {
+    console.log({ error });
     const {
       response: { status },
     } = error;
