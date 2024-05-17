@@ -3,6 +3,7 @@ $buttonFocusColor: #2e69ff;
 $defaultInputBorder: #dee0e1;
 $defaultWhite: #FEFEFE;
 $defaultRadius: 8px;
+$defaultTextareaBackgroundColor: #FBFBFC;
 
 @mixin inputBorderStyle($color: $defaultInputBorder) {
   border: 1px solid $color;
@@ -24,5 +25,22 @@ $defaultRadius: 8px;
 
   &:focus {
     border-color: $buttonFocusColor;
+  }
+}
+
+@mixin inputStyle($paddingTb: 0.5rem, $paddingRl: 0.5rem) {
+  padding: $paddingTb $paddingRl;
+  outline: none;
+  resize: none;
+  border: 1px solid $defaultInputBorder;
+  border-radius: 8px;
+  background-color: $defaultTextareaBackgroundColor;
+
+  word-break: break-all;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+
+  &::placeholder {
+    color: #CCCCCC;
   }
 }
