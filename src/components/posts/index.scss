@@ -10,28 +10,31 @@
   &__textarea {
     width: inherit;
     min-height: 10rem;
-    padding: 0.5rem 0.5rem;
-    outline: none;
-    resize: none;
-    border: 1px solid $defaultInputBorder;
-    border-radius: 8px;
-    background-color: #FBFBFC;
 
-    word-break: break-all;
-    white-space: pre-wrap;
-    overflow-wrap: break-word;
-
-    &::placeholder {
-      color: #CCCCCC;
-    }
+    @include inputStyle();
   }
 
   &__button {
     padding: 0.3rem 0.5rem;
     background-color: $defaultWhite;
-    border: none;
+    border: 1px solid $defaultInputBorder;
     border-radius: $defaultRadius;
+    outline: none;
+    cursor: pointer;
   }
+
+  &__input-header {
+    width: 100%;
+
+    @include inputStyle(0.2rem, 0.5rem);
+    height: 2rem;
+  }
+}
+
+.post-form__button-header {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
 }
 
 .post {
