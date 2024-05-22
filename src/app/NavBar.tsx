@@ -1,17 +1,13 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { KEY_SIGN_IN, TRUE } from "@/utils/constants";
+import { useEffect } from "react";
 import { locate } from "@/utils/common";
+import useAuthInterceptor from "@/hooks/useAuthInterceptor";
 
 const NavBar = () => {
   const router = useRouter();
-  const getInitialState = () => {
-    return sessionStorage.getItem(KEY_SIGN_IN) === TRUE;
-  };
-
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const authState = useAuthInterceptor();
 
   const pathName = usePathname();
 
@@ -21,9 +17,6 @@ const NavBar = () => {
   };
 
   useEffect(saveCurrentPath, [pathName]);
-  useEffect(() => {
-    setIsAuthenticated(getInitialState());
-  }, [isAuthenticated]);
 
   return (
     <div className="nav">
@@ -35,13 +28,13 @@ const NavBar = () => {
         <input className="nav__search" />
         <div className="nav__items">
           <div onClick={() => router.push("/edit")}>Edit</div>
-          {isAuthenticated && (
+          {authState ? (
             <div onClick={() => router.push("/mypage")}>My page</div>
-          )}
-          {!isAuthenticated && (
+          ) : (
             <div onClick={() => router.push("/signin")}>Sign in</div>
           )}
-          <div onClick={() => router.push("/test")}>Test</div>
+          {/*<div onClick={() => router.push("/signin")}>Sign in</div>*/}
+          {/*<div onClick={() => router.push("/test")}>Test</div>*/}
         </div>
       </div>
     </div>
