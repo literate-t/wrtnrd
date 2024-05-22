@@ -4,18 +4,22 @@ import styles from "./RegisterForm.module.scss";
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import axios from "@/utils/axios";
-import { locate } from "@/utils/common";
+import { useRouter } from "next/navigation";
 
 interface FormValue {
   username: string;
   password: string;
   confirmPassword: string;
+  author: string;
+  description: string;
 }
 
 const initialValues: FormValue = {
   username: "",
   password: "",
   confirmPassword: "",
+  author: "",
+  description: "",
 };
 
 const signupSchema = Yup.object().shape({
@@ -31,25 +35,36 @@ const signupSchema = Yup.object().shape({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password")], "Not matched")
     .required("Required"),
+  author: Yup.string().min(4, "At leat 4 characters").required("Required"),
+  description: Yup.string()
+    .min(8, "At least 8 characters")
+    .required("Required"),
 });
 
 const RegisterForm = () => {
+  const router = useRouter();
+
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={signupSchema}
       onSubmit={async (values: FormValue) => {
         try {
-          const resp = await axios("/auth/register", {
+          const resp = await axios("/api/auth/register", {
             method: "POST",
-            data: values,
+            data: {
+              username: values.username,
+              password: values.password,
+              author: values.author,
+              description: values.description,
+            },
             headers: {
               "Content-Type": "application/json",
             },
           });
 
           if (resp.status == 200) {
-            locate("/");
+            router.push("/");
           }
         } catch (e) {
           console.error("Error", e);
@@ -86,9 +101,22 @@ const RegisterForm = () => {
             name="confirmPassword"
             className={styles.input}
           />
-          {/*<ErrorMessage name="confirmPassword" />*/}
           {errors.confirmPassword && touched.confirmPassword ? (
             <div className={styles.error}>{errors.confirmPassword}</div>
+          ) : null}
+          <label htmlFor="author" className={styles.label}>
+            author
+          </label>
+          <Field id="author" name="author" className={styles.input} />
+          {errors.author && touched.author ? (
+            <div className={styles.error}>{errors.author}</div>
+          ) : null}
+          <label htmlFor="description" className={styles.label}>
+            description
+          </label>
+          <Field id="description" name="description" className={styles.input} />
+          {errors.description && touched.description ? (
+            <div className={styles.error}>{errors.description}</div>
           ) : null}
           <button type="submit" className={styles.button}>
             Submit
