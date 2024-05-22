@@ -1,18 +1,20 @@
 "use client";
 
 import "./index.scss";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, MouseEvent, useState } from "react";
 import { notoSansKr } from "@/utils/font";
 import { useRecoilValue } from "recoil";
 import { authAtoms } from "@/atoms/authAtoms";
 import { useRouter } from "next/navigation";
 import axios from "@/utils/axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const PostForm = () => {
   const [body, setBody] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const authUser = useRecoilValue(authAtoms);
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const handleBodyText = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setBody(e.target.value);
@@ -22,19 +24,8 @@ const PostForm = () => {
     setTitle(e.target.value);
   };
 
-  const handleSubmit = () => {
-    if (null == authUser) {
-      router.push("/signin");
-      return;
-    } else if (null == body || body?.length <= 0) {
-      alert("The body is empty");
-      return;
-    } else if (null == title || title?.length <= 0) {
-      alert("The title is empty");
-      return;
-    }
-
-    axios("/api/post/new", {
+  const addNewPost = async () => {
+    const res = await axios("/api/post/new", {
       method: "POST",
       data: {
         userId: authUser?.id,
@@ -47,6 +38,35 @@ const PostForm = () => {
         }),
       },
     });
+
+    return res.data;
+  };
+
+  const mutation = useMutation({
+    mutationKey: ["addNewPost"],
+    mutationFn: addNewPost,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+    },
+  });
+
+  const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    if (null == authUser) {
+      router.push("/signin");
+      return;
+    } else if (null == body || body?.length <= 0) {
+      alert("The body is empty");
+      return;
+    } else if (null == title || title?.length <= 0) {
+      alert("The title is empty");
+      return;
+    }
+
+    mutation.mutate();
+    // setBody(null);
+    // setTitle(null);
   };
 
   return (
