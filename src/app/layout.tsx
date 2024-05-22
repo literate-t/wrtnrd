@@ -4,6 +4,7 @@ import "@/app/index.scss";
 import TanstackProvider from "@/providers/TanstackProvider";
 import RecoilRootWrapper from "@/Wrappers/RecoilRootWrapper";
 import { notoSansKr } from "@/utils/font";
+import { AuthProvider } from "@/providers/AuthProvider";
 
 export const metadata: Metadata = {
   title: "Wrtnrd",
@@ -19,10 +20,12 @@ const RootLayout = ({
     <html lang="en">
       <body className={notoSansKr.className}>
         <RecoilRootWrapper>
-          <TanstackProvider>
-            <NavBar />
-            <main>{children}</main>
-          </TanstackProvider>
+          <AuthProvider>
+            <TanstackProvider>
+              <NavBar />
+              <main>{children}</main>
+            </TanstackProvider>
+          </AuthProvider>
         </RecoilRootWrapper>
       </body>
     </html>
