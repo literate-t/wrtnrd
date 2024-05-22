@@ -3,9 +3,6 @@ import { SIGN_URL } from "@/utils/urls";
 import {
   ERROR_FORBIDDEN_403,
   ERROR_UNAUTHENTICATED_401,
-  FALSE,
-  KEY_SIGN_IN,
-  TRUE,
 } from "@/utils/constants";
 import { locate } from "@/utils/common";
 
@@ -22,7 +19,6 @@ axiosInstance.interceptors.request.use((config) => {
 
 axiosInstance.interceptors.response.use(
   (response) => {
-    setValueInSessionStorage(KEY_SIGN_IN, TRUE);
     return response;
   },
   (error) => {
@@ -30,8 +26,6 @@ axiosInstance.interceptors.response.use(
     const {
       response: { status },
     } = error;
-
-    setValueInSessionStorage(KEY_SIGN_IN, FALSE);
 
     if (ERROR_UNAUTHENTICATED_401 == status) {
       locate(SIGN_URL);
