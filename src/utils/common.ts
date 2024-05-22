@@ -3,3 +3,11 @@ export const locate = (url: string) => {
     window.location.href = url;
   }
 };
+
+export const getStatus = (error: any): number => {
+  const {
+    response: { status },
+  } = error;
+
+  return status;
+};
