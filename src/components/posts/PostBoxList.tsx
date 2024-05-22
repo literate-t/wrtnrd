@@ -16,12 +16,14 @@ const PostBoxList = () => {
     queryFn: fetchPosts,
   });
 
-  if (isFetching) {
-    return <div>Loading...</div>;
-  }
-  if (isError) {
-    return <div>Error</div>;
-  }
+  // TODO position: fixed 속성의 컴포넌트를 만들어서 Loading 화면을 표현한다
+  // if (isFetching) {
+  //   return <div>Loading...</div>;
+  // }
+  // TODO error 화면은 후순위
+  // if (isError) {
+  //   return <div>Error</div>;
+  // }
 
   return (
     <div>{data?.map((post) => <PostBox post={post} key={post.id} />)}</div>
