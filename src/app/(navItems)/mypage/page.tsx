@@ -1,8 +1,31 @@
+"use client";
+
+import SideNavigation from "@/components/mypage/SideNavigation";
+import React, { ReactNode, useEffect, useState } from "react";
+import Password from "@/components/mypage/Password";
+import Author from "@/components/mypage/Author";
+
+const componentMap: { [key: string]: ReactNode } = {
+  password: <Password />,
+  author: <Author />,
+};
+
 const MyPage = () => {
+  const [activeComponent, setActiveComponent] = useState<string>("");
+
+  const handleNavigation = (component: string) => {
+    setActiveComponent(component);
+  };
+
+  useEffect(() => {}, [activeComponent]);
+
   return (
-    <main className="main">
-      <div className="main--container">MyPage</div>
-    </main>
+    <div>
+      <SideNavigation onNavigate={handleNavigation} />
+      <main className="main">
+        <div className="main--container">{componentMap[activeComponent]}</div>
+      </main>
+    </div>
   );
 };
 
