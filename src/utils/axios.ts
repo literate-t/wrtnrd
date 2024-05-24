@@ -1,10 +1,6 @@
 import axios from "axios";
-import { SIGN_URL } from "@/utils/urls";
-import {
-  ERROR_FORBIDDEN_403,
-  ERROR_UNAUTHENTICATED_401,
-} from "@/utils/constants";
-import { locate } from "@/utils/common";
+import { ERROR_FORBIDDEN_403 } from "@/utils/constants";
+import { getStatus } from "@/utils/common";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:8080",
@@ -22,18 +18,13 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.log({ error });
-    const {
-      response: { status },
-    } = error;
+    const status = getStatus(error);
 
-    if (ERROR_UNAUTHENTICATED_401 == status) {
-      locate(SIGN_URL);
-    } else if (ERROR_FORBIDDEN_403 == status) {
+    if (ERROR_FORBIDDEN_403 == status) {
       return getNewTokens(error);
     }
 
-    return error;
+    return Promise.reject(error);
   }
 );
 
