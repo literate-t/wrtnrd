@@ -4,11 +4,12 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { locate } from "@/utils/common";
 import useAuthInterceptor from "@/hooks/useAuthInterceptor";
+import { useAuth } from "@/providers/AuthProvider";
 
 const NavBar = () => {
   const router = useRouter();
   const authState = useAuthInterceptor();
-
+  const { signOut } = useAuth();
   const pathName = usePathname();
 
   // TODO target url이 있을 경우에 session storage에 저장한다
@@ -33,6 +34,7 @@ const NavBar = () => {
           ) : (
             <div onClick={() => router.push("/signin")}>Sign in</div>
           )}
+          {authState ? <div onClick={() => signOut()}>Sing out</div> : null}
           {/*<div onClick={() => router.push("/signin")}>Sign in</div>*/}
           {/*<div onClick={() => router.push("/test")}>Test</div>*/}
         </div>
