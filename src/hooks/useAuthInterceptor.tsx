@@ -26,8 +26,11 @@ const useAuthInterceptor = () => {
         if (ERROR_UNAUTHENTICATED_401 == status) {
           signOut();
           router.push(SIGN_URL);
+
+          return null;
         }
 
+        // TODO return Promise.reject(error)로 꼭 변경해야 하는지 확인할 것
         return error;
       }
     );
