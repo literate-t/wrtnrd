@@ -1,0 +1,73 @@
+@use "@/app/utils" as *;
+
+/* MyPage - Side navigation */
+.side-nav {
+  position: fixed;
+  left: 0;
+
+  width: 15%;
+  height: 100vh;
+
+  background-color: $defaultWhite;
+  border-right: 1px solid $defaultWhite;
+  box-shadow: 5px 0 10px rgba(0, 0, 0, .04);
+
+  &__item-list {
+    padding: 0.4rem;
+    margin: 0;
+
+    list-style: none;
+  }
+
+  &__item {
+    margin-top: 0.5rem;
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 0.2rem;
+    text-align: center;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $activeColor;
+    }
+
+    &:active {
+      background-color: $backgroundColor;
+    }
+
+    &--active {
+      background-color: $activeColor;
+    }
+  }
+}
+
+@media (max-width: 870px) {
+  .side-nav {
+    position: relative;
+  }
+}
+
+/* Password */
+// TODO Side navigation 때문에 요소가 왼쪽으로 치우져 보이는 걸 해결해야 한다
+.password-modify {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+
+  &__label:not(:first-of-type) {
+    margin-top: 1rem;
+  }
+
+  &__input {
+    @include inputBorderStyle();
+    height: 36px;
+  }
+
+  &__error {
+    color: red;
+  }
+
+  &__submit {
+    @include inputBasicButtonStyle();
+  }
+}
