@@ -1,13 +1,14 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { locate } from "@/utils/common";
 import useAuthInterceptor from "@/hooks/useAuthInterceptor";
 import { useAuth } from "@/providers/AuthProvider";
 
 const NavBar = () => {
   const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const authState = useAuthInterceptor();
   const { signOut } = useAuth();
   const pathName = usePathname();
@@ -17,7 +18,10 @@ const NavBar = () => {
     console.log(pathName);
   };
 
-  useEffect(saveCurrentPath, [pathName]);
+  useEffect(() => {
+    saveCurrentPath();
+    setIsAuthenticated(!!authState);
+  }, [pathName, isAuthenticated, setIsAuthenticated]);
 
   return (
     <div className="nav">
@@ -29,12 +33,14 @@ const NavBar = () => {
         <input className="nav__search" />
         <div className="nav__items">
           <div onClick={() => router.push("/edit")}>Edit</div>
-          {authState ? (
-            <div onClick={() => router.push("/mypage")}>My page</div>
+          {isAuthenticated ? (
+            <>
+              <div onClick={() => signOut()}>Sign out</div>
+              <div onClick={() => router.push("/mypage")}>My page</div>
+            </>
           ) : (
             <div onClick={() => router.push("/signin")}>Sign in</div>
           )}
-          {authState ? <div onClick={() => signOut()}>Sing out</div> : null}
           {/*<div onClick={() => router.push("/signin")}>Sign in</div>*/}
           {/*<div onClick={() => router.push("/test")}>Test</div>*/}
         </div>
