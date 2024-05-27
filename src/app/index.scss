@@ -40,6 +40,8 @@ box-sizing: border-box;
   background-color: white;
   box-shadow: 0 3px 6px rgba(0,0,0,.04);
 
+  z-index: 9;
+
   .nav__logo {
     font-size: 2rem;
     color: #0033CC;
