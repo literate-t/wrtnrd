@@ -17,6 +17,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       email,
     });
   };
+  // TODO: 쿠키제거 후 루트로 이동한다
   const signOut = () => {
     setAuth(null);
   };
