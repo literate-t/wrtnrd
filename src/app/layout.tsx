@@ -5,6 +5,7 @@ import TanstackProvider from "@/providers/TanstackProvider";
 import RecoilRootWrapper from "@/Wrappers/RecoilRootWrapper";
 import { notoSansKr } from "@/utils/font";
 import { AuthProvider } from "@/providers/AuthProvider";
+import { ToastContainer } from "react-toastify";
 
 export const metadata: Metadata = {
   title: "Wrtnrd",
@@ -27,6 +28,7 @@ const RootLayout = ({
             </TanstackProvider>
           </AuthProvider>
         </RecoilRootWrapper>
+        <ToastContainer autoClose={1500} position="top-right" />
       </body>
     </html>
   );
