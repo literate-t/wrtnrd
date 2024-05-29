@@ -58,9 +58,6 @@ const RegisterForm = () => {
               author: values.author,
               description: values.description,
             },
-            headers: {
-              "Content-Type": "application/json",
-            },
           });
 
           if (resp.status == 200) {
