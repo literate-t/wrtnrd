@@ -8,8 +8,8 @@ import { useAuth } from "@/providers/AuthProvider";
 
 const NavBar = () => {
   const router = useRouter();
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const authState = useAuthInterceptor();
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!!authState);
   const { signOut } = useAuth();
   const pathName = usePathname();
 
