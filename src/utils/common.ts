@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 export const locate = (url: string) => {
   if (typeof window !== "undefined") {
     window.location.href = url;
@@ -43,4 +45,13 @@ export const debounce = (callback: (arg: string) => void, wait: number) => {
       callback(arg);
     }, wait);
   };
+};
+
+export const notify = (message: string) => toast(message);
+export const getDataFromError = (error: any): any => {
+  const {
+    response: { data },
+  } = error;
+
+  return data;
 };
