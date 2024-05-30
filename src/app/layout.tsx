@@ -28,7 +28,7 @@ const RootLayout = ({
             </TanstackProvider>
           </AuthProvider>
         </RecoilRootWrapper>
-        <ToastContainer autoClose={1500} position="top-right" />
+        <ToastContainer autoClose={2000} position="top-right" />
       </body>
     </html>
   );
