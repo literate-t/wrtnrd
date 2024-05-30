@@ -30,8 +30,6 @@ const SignInForm = () => {
     initialValues,
     validationSchema,
     onSubmit: async (values) => {
-      console.log(values);
-
       try {
         const resp = await axios(
           "http://localhost:8080/api/auth/authenticate",
@@ -46,8 +44,6 @@ const SignInForm = () => {
 
           router.push("/");
         }
-
-        console.log(resp);
       } catch (e) {
         console.error("Error", e);
       }
