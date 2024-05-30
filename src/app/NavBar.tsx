@@ -1,33 +1,42 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { locate } from "@/utils/common";
-import useAuthInterceptor from "@/hooks/useAuthInterceptor";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/providers/AuthProvider";
+import { useEffect, useState } from "react";
+import useAuthInterceptor from "@/hooks/useAuthInterceptor";
+
+async function getData() {
+  try {
+    return await fetch("/api/auth", {
+      method: "GET",
+    });
+  } catch (error) {
+    throw error;
+  }
+}
 
 const NavBar = () => {
-  const router = useRouter();
   const authState = useAuthInterceptor();
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!!authState);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(false);
   const { signOut } = useAuth();
-  const pathName = usePathname();
+  const router = useRouter();
 
-  // TODO target url이 있을 경우에 session storage에 저장한다
-  const saveCurrentPath = () => {
-    console.log(pathName);
-  };
+  authState &&
+    getData()
+      .then((data) => {
+        setIsAuthenticated(data.statusText === "OK");
+      })
+      .catch(() => {});
 
   useEffect(() => {
-    saveCurrentPath();
     setIsAuthenticated(!!authState);
-  }, [pathName, isAuthenticated, setIsAuthenticated]);
+  }, [setIsAuthenticated, authState]);
 
   return (
     <div className="nav">
       <div className="nav__offset"></div>
       <div className="nav__home">
-        <div className="nav__logo" onClick={() => locate("/")}>
+        <div className="nav__logo" onClick={() => router.push("/")}>
           Wrtnrd
         </div>
         <input className="nav__search" />
@@ -41,8 +50,6 @@ const NavBar = () => {
           ) : (
             <div onClick={() => router.push("/signin")}>Sign in</div>
           )}
-          {/*<div onClick={() => router.push("/signin")}>Sign in</div>*/}
-          {/*<div onClick={() => router.push("/test")}>Test</div>*/}
         </div>
       </div>
     </div>
