@@ -1,25 +1,44 @@
 "use client";
 
 import React, { createContext, useContext } from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { authAtoms } from "@/atoms/authAtoms";
+import axios from "@/utils/axios";
+import { getDataFromError, notify } from "@/utils/common";
+import { SIGN_OUT_SUCCESS } from "@/utils/constants";
+import { useRouter } from "next/navigation";
 
 const AuthContext = createContext({
   signIn: (id: number, email: string) => {},
   signOut: () => {},
 });
+
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const setAuth = useSetRecoilState(authAtoms);
+  const [authState, setAuthState] = useRecoilState(authAtoms);
+  const router = useRouter();
 
   const signIn = (id: number, email: string) => {
-    setAuth({
+    setAuthState({
       id,
       email,
     });
   };
-  // TODO: 쿠키제거 후 루트로 이동한다
-  const signOut = () => {
-    setAuth(null);
+
+  const signOut = async () => {
+    try {
+      await axios("/api/auth/revoke-all-tokens", {
+        method: "POST",
+        data: {
+          userId: authState?.id,
+        },
+      });
+      setAuthState(null);
+      notify(SIGN_OUT_SUCCESS);
+
+      router.push("/");
+    } catch (error) {
+      notify(getDataFromError(error));
+    }
   };
 
   return (
