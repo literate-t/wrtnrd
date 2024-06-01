@@ -42,7 +42,7 @@ const SignInForm = () => {
         if (resp.status == 200) {
           signIn(resp.data.id, resp.data.email);
 
-          router.push("/");
+          router.replace("/");
         }
       } catch (e) {
         console.error("Error", e);
