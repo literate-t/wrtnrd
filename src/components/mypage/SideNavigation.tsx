@@ -28,6 +28,12 @@ const SideNavigation = ({ onNavigate }: SideNavigationProps) => {
         >
           Author
         </li>
+        <li
+          onClick={() => handleItemClick("like")}
+          className={`side-nav__item ${activeItem === "like" ? "side-nav__item--active" : ""}`}
+        >
+          Likes
+        </li>
       </ul>
     </nav>
   );
