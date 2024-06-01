@@ -5,6 +5,7 @@ export interface PostProps {
   description: string;
   body: string;
   createdAt: string;
+  like: boolean;
 }
 
 export interface PostBoxProps {

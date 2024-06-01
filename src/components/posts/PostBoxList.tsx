@@ -4,16 +4,22 @@ import PostBox from "@/components/posts/PostBox";
 import axios from "@/utils/axios";
 import { useQuery } from "@tanstack/react-query";
 import { PostProps } from "@/interfaces/postInterface";
+import { useRecoilValue } from "recoil";
+import { authAtoms } from "@/atoms/authAtoms";
 
-const fetchPosts = async () => {
-  const res = await axios.get("/api/post/list");
+const fetchPosts = async (userId: number | undefined) => {
+  const res = await axios.post("/api/post/list", {
+    userId,
+  });
+
   return res.data;
 };
 
 const PostBoxList = () => {
+  const authState = useRecoilValue(authAtoms);
   const { isFetching, isError, data } = useQuery<PostProps[]>({
     queryKey: ["posts"],
-    queryFn: fetchPosts,
+    queryFn: () => fetchPosts(authState?.id),
   });
 
   // TODO position: fixed 속성의 컴포넌트를 만들어서 Loading 화면을 표현한다
