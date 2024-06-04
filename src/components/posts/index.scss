@@ -84,3 +84,10 @@
   cursor: pointer;
   width: fit-content;
 }
+
+.posts__bar {
+  width: 100%;
+  margin-bottom: 1rem;
+  height: 1rem;
+  touch-action: none;
+}
