@@ -4,12 +4,12 @@ import React, { ReactNode, useEffect, useState } from "react";
 import Password from "@/components/mypage/Password";
 import Author from "@/components/mypage/Author";
 import SideNavigation from "@/components/mypage/SideNavigation";
-import LikePosts from "@/components/mypage/LikePosts";
+import LikePostList from "@/components/mypage/LikePostList";
 
 const componentMap: { [key: string]: ReactNode } = {
   password: <Password />,
   author: <Author />,
-  like: <LikePosts />,
+  like: <LikePostList />,
 };
 
 const MyPage = () => {
