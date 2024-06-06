@@ -1,6 +1,5 @@
 "use client";
 
-import axios from "@/utils/axios";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useRecoilValue } from "recoil";
 import { authAtoms } from "@/atoms/authAtoms";
@@ -8,31 +7,7 @@ import React, { useCallback, useEffect, useRef } from "react";
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 import { PostProps } from "@/interfaces/postInterface";
 import PostBox from "@/components/posts/PostBox";
-
-const createDynamicUrlWithObject = (...args: any[]): string => {
-  const urlSearchParams = new URLSearchParams();
-  args.forEach((arg) => {
-    Object.keys(arg).forEach((key) => {
-      if (arg[key] === undefined) {
-        return;
-      }
-      urlSearchParams.set(key, arg[key]);
-    });
-  });
-
-  return urlSearchParams.toString();
-};
-
-const fetchPosts = async (page: number, userId: number | undefined) => {
-  const params = {
-    page,
-    userId,
-  };
-  const queryString = createDynamicUrlWithObject(params);
-  const res = await axios.get(`/api/post/list?${queryString}`);
-
-  return res.data;
-};
+import { fetchPosts } from "@/utils/common";
 
 const PostBoxList = () => {
   const authState = useRecoilValue(authAtoms);
@@ -42,7 +17,8 @@ const PostBoxList = () => {
 
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
     queryKey: ["posts"],
-    queryFn: ({ pageParam }) => fetchPosts(pageParam, authState?.id),
+    queryFn: ({ pageParam }) =>
+      fetchPosts("/api/post/list", { page: pageParam, userId: authState?.id }),
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.nextPage,
   });

@@ -1,4 +1,5 @@
 import { toast } from "react-toastify";
+import axios from "@/utils/axios";
 
 export const locate = (url: string) => {
   if (typeof window !== "undefined") {
@@ -54,4 +55,31 @@ export const getDataFromError = (error: any): any => {
   } = error;
 
   return data;
+};
+
+/**
+ * A key of param is the key of url search param
+ */
+export const createDynamicUrlWithObject = (param: object): string => {
+  const urlSearchParams = new URLSearchParams();
+  Object.keys(param).forEach((key) => {
+    // @ts-ignore
+    if (param[key] === undefined) {
+      return;
+    }
+    // @ts-ignore
+    urlSearchParams.set(key, param[key]);
+  });
+
+  return urlSearchParams.toString();
+};
+
+/**
+ * A key of param is the key of url search param
+ */
+export const fetchPosts = async (baseUrl: string, param: object) => {
+  const queryString = createDynamicUrlWithObject(param);
+  const res = await axios.get(`${baseUrl}?${queryString}`);
+
+  return res.data;
 };
