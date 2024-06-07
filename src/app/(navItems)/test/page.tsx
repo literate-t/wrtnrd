@@ -9,9 +9,6 @@ const Test = () => {
   useEffect(() => {
     axios("/api/auth/test", {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
     }).then((res) => {
       setTest(res.data);
     });

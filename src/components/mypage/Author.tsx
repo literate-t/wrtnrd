@@ -6,8 +6,6 @@ import axios from "@/utils/axios";
 import { useRecoilValue } from "recoil";
 import { authAtoms } from "@/atoms/authAtoms";
 
-// useFormik 사용해보기
-
 interface FormValue {
   author: string;
 }
@@ -58,7 +56,6 @@ const Author = () => {
       return;
     }
 
-    // TODO 중복 확인 요청
     try {
       const result = await axios("/api/user/check-author-duplicated", {
         method: "POST",
@@ -67,11 +64,13 @@ const Author = () => {
         },
       });
       setIsAvailable(true);
+      notify(result.data);
     } catch (e) {
       setIsAvailable(false);
     }
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debounceCheckDuplicated = useCallback(
     debounce((value: string) => {
       checkAuthorDuplicated(value);

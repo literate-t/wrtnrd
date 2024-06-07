@@ -41,7 +41,6 @@ const NavBar = () => {
         </div>
         <input className="nav__search" />
         <div className="nav__items">
-          <div onClick={() => router.push("/edit")}>Edit</div>
           {isAuthenticated ? (
             <>
               <div onClick={() => signOut()}>Sign out</div>
