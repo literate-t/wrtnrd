@@ -9,12 +9,12 @@ import { useRecoilValue } from "recoil";
 import { authAtoms } from "@/atoms/authAtoms";
 import { useRouter } from "next/navigation";
 
-const PostBox = ({ post }: PostBoxProps) => {
+const PostBox = ({ post, onLikeClick }: PostBoxProps) => {
   const [like, setLike] = useState<boolean>(!!post?.like);
   const authState = useRecoilValue(authAtoms);
   const router = useRouter();
 
-  const handlePostLike = async () => {
+  const handlePostLike = async (id: number | undefined) => {
     if (null === authState) {
       router.push("/signin");
       return;
@@ -28,6 +28,7 @@ const PostBox = ({ post }: PostBoxProps) => {
       },
     });
 
+    onLikeClick && onLikeClick(id);
     setLike(result.data);
   };
 
@@ -43,7 +44,7 @@ const PostBox = ({ post }: PostBoxProps) => {
         <div className="post__body">{post?.body}</div>
       </div>
       <div className="post__footer">
-        <div onClick={handlePostLike} className="post__like">
+        <div onClick={() => handlePostLike(post?.id)} className="post__like">
           {like ? <AiFillLike size={18} /> : <AiOutlineLike size={18} />}
         </div>
       </div>

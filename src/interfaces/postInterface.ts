@@ -10,4 +10,5 @@ export interface PostProps {
 
 export interface PostBoxProps {
   post?: PostProps;
+  onLikeClick?: (id: number | undefined) => void;
 }
