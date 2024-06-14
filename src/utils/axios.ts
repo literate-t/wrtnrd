@@ -3,7 +3,7 @@ import { ERROR_FORBIDDEN_403 } from "@/utils/constants";
 import { getStatus } from "@/utils/common";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: "https://wrtnd-theold-7acc5afb.koyeb.app",
 });
 
 axiosInstance.interceptors.request.use((config) => {
