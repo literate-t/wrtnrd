@@ -3,7 +3,7 @@ import { ERROR_FORBIDDEN_403 } from "@/utils/constants";
 import { getStatus } from "@/utils/common";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
 });
 
 axiosInstance.interceptors.request.use((config) => {
