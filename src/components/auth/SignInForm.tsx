@@ -31,13 +31,10 @@ const SignInForm = () => {
     validationSchema,
     onSubmit: async (values) => {
       try {
-        const resp = await axios(
-          "http://localhost:8080/api/auth/authenticate",
-          {
-            method: "POST",
-            data: values,
-          }
-        );
+        const resp = await axios("/api/auth/authenticate", {
+          method: "POST",
+          data: values,
+        });
 
         if (resp.status == 200) {
           signIn(resp.data.id, resp.data.email);
