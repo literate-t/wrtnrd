@@ -5,6 +5,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import { ChangeEvent, useCallback, useState } from "react";
 import { debounce } from "@/utils/common";
+import { useAuth } from "@/providers/AuthProvider";
+import { useRouter } from "next/navigation";
 
 interface FormValue {
   oldPassword: string;
@@ -38,6 +40,8 @@ const notify = (message: string) => toast(message);
 const Password = () => {
   const [oldPassword, setOldPassword] = useState<string>("");
   const [isPasswordCorrect, setIsPasswordCorrect] = useState<boolean>(false);
+  const { signOut } = useAuth();
+  const router = useRouter();
 
   const checkPassword = async (value: string) => {
     try {
@@ -64,7 +68,8 @@ const Password = () => {
       });
 
       notify(result.data);
-      // TODO: signout 이후 /signin으로 이동
+      signOut();
+      router.replace("/signin");
     } catch (e: any) {
       const {
         response: { data },

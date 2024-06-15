@@ -6,7 +6,6 @@ import { authAtoms } from "@/atoms/authAtoms";
 import axios from "@/utils/axios";
 import { getDataFromError, notify } from "@/utils/common";
 import { SIGN_OUT_SUCCESS } from "@/utils/constants";
-import { useRouter } from "next/navigation";
 
 const AuthContext = createContext({
   signIn: (id: number, email: string) => {},
@@ -15,7 +14,6 @@ const AuthContext = createContext({
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [authState, setAuthState] = useRecoilState(authAtoms);
-  const router = useRouter();
 
   const signIn = (id: number, email: string) => {
     setAuthState({
@@ -34,8 +32,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       });
       setAuthState(null);
       notify(SIGN_OUT_SUCCESS);
-
-      router.push("/");
     } catch (error) {
       notify(getDataFromError(error));
     }
