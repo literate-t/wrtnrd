@@ -4,9 +4,9 @@ import { useEffect } from "react";
 import axios from "@/utils/axios";
 import { useRecoilValue } from "recoil";
 import { authAtoms } from "@/atoms/authAtoms";
-import { getStatus } from "@/utils/common";
+import { getStatus, notify } from "@/utils/common";
 import { useAuth } from "@/providers/AuthProvider";
-import { ERROR_UNAUTHENTICATED_401 } from "@/utils/constants";
+import { ERROR_UNAUTHORIZED_401, SIGN_IN_FAILURE } from "@/utils/constants";
 import { useRouter } from "next/navigation";
 import { SIGN_URL } from "@/utils/urls";
 
@@ -23,16 +23,17 @@ const useAuthInterceptor = () => {
       (error) => {
         const status = getStatus(error);
 
-        if (ERROR_UNAUTHENTICATED_401 == status) {
-          signOut();
+        if (ERROR_UNAUTHORIZED_401 == status) {
+          if (null != authState) {
+            signOut();
+          }
+          notify(SIGN_IN_FAILURE);
           router.push(SIGN_URL);
 
-          return null;
+          return Promise.reject(null);
         }
 
-        // TODO return Promise.reject(error)로 꼭 변경해야 하는지 확인할 것
         return Promise.reject(error);
-        // return error;
       }
     );
   }, [authState, router]);

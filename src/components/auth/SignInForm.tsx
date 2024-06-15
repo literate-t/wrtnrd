@@ -6,6 +6,8 @@ import styles from "./SignInForm.module.scss";
 import axios from "@/utils/axios";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/providers/AuthProvider";
+import { notify } from "@/utils/common";
+import { SIGN_IN_SUCCESS } from "@/utils/constants";
 
 interface FormValue {
   username: string;
@@ -40,6 +42,7 @@ const SignInForm = () => {
           signIn(resp.data.id, resp.data.email);
 
           router.replace("/");
+          notify(SIGN_IN_SUCCESS);
         }
       } catch (e) {
         console.error("Error", e);

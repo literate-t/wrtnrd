@@ -6,6 +6,7 @@ import { authAtoms } from "@/atoms/authAtoms";
 import axios from "@/utils/axios";
 import { getDataFromError, notify } from "@/utils/common";
 import { SIGN_OUT_SUCCESS } from "@/utils/constants";
+import "react-toastify/dist/ReactToastify.css";
 
 const AuthContext = createContext({
   signIn: (id: number, email: string) => {},
