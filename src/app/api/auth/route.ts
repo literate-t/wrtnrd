@@ -3,6 +3,7 @@ import axios from "@/utils/axios";
 const getCookieString = (req: Request, name: string): any => {
   const token = req.headers.get("cookie");
   console.log("token", token);
+  console.log("headers", req.headers);
   return token
     ?.split(";")
     .find((char) => char.trim().startsWith(`${name}=`))
