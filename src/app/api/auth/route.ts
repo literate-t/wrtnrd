@@ -13,6 +13,11 @@ export async function GET(req: Request) {
     const accessToken = getCookieString(req, "ac");
     const refreshToken = getCookieString(req, "rf");
 
+    if (!accessToken || !refreshToken) {
+      console.error("Missing tokens in cookies");
+      throw new Error("Authentication tokens are missing");
+    }
+
     const res = await axios("/api/auth/check", {
       method: "GET",
       headers: {
