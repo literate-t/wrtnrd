@@ -4,10 +4,11 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/providers/AuthProvider";
 import { useEffect, useState } from "react";
 import useAuthInterceptor from "@/hooks/useAuthInterceptor";
+import axios from "@/utils/axios";
 
 async function getData() {
   try {
-    return await fetch("/api/auth", {
+    return await axios("/api/auth/check", {
       method: "GET",
     });
   } catch (error) {
@@ -24,7 +25,7 @@ const NavBar = () => {
   authState &&
     getData()
       .then((data) => {
-        setIsAuthenticated(data.statusText === "OK");
+        setIsAuthenticated(data.status === 200);
       })
       .catch(() => {});
 
