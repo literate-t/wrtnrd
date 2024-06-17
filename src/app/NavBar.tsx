@@ -22,14 +22,13 @@ const NavBar = () => {
   const { signOut } = useAuth();
   const router = useRouter();
 
-  authState &&
-    getData()
-      .then((data) => {
-        setIsAuthenticated(data.status === 200);
-      })
-      .catch(() => {});
-
   useEffect(() => {
+    authState &&
+      getData()
+        .then((data) => {
+          setIsAuthenticated(data.status === 200);
+        })
+        .catch(() => {});
     setIsAuthenticated(!!authState);
   }, [setIsAuthenticated, authState]);
 
