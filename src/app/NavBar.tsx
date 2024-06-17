@@ -23,12 +23,15 @@ const NavBar = () => {
   const router = useRouter();
 
   useEffect(() => {
-    authState &&
-      getData()
-        .then((data) => {
-          setIsAuthenticated(data.status === 200);
-        })
-        .catch(() => {});
+    // TODO 배포 이후에 문제 없으면 삭제하도록 한다
+    // if (authState) {
+    //   getData()
+    //     .then((data) => {
+    //       setIsAuthenticated(data.status === 200);
+    //     })
+    //     .catch(() => {});
+    // }
+
     setIsAuthenticated(!!authState);
   }, [setIsAuthenticated, authState]);
 
