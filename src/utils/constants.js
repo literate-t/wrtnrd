@@ -7,3 +7,8 @@ export const ERROR_FORBIDDEN_403 = 403;
 export const SIGN_OUT_SUCCESS = "Sign out successfully";
 export const SIGN_IN_FAILURE = "Sign in failure";
 export const SIGN_IN_SUCCESS = "Sign in successfully";
+
+export const ACCESS_TOKEN = "ac";
+export const REFRESH_TOKEN = "rf";
+
+export const AUTH_ATOMS = "authAtoms";
