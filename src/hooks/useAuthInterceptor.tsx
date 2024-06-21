@@ -4,9 +4,18 @@ import { useEffect } from "react";
 import axios from "@/utils/axios";
 import { useRecoilValue } from "recoil";
 import { authAtoms } from "@/atoms/authAtoms";
-import { getStatus } from "@/utils/common";
+import {
+  getItemSessionStorage,
+  getStatus,
+  locate,
+  notify,
+} from "@/utils/common";
 import { useAuth } from "@/providers/AuthProvider";
-import { ERROR_UNAUTHORIZED_401 } from "@/utils/constants";
+import {
+  AUTH_ATOMS,
+  ERROR_FORBIDDEN_403,
+  SIGN_OUT_SUCCESS,
+} from "@/utils/constants";
 import { useRouter } from "next/navigation";
 import { SIGN_URL } from "@/utils/urls";
 
@@ -21,15 +30,18 @@ const useAuthInterceptor = () => {
         return response;
       },
       (error) => {
-        const status = getStatus(error);
-
-        if (ERROR_UNAUTHORIZED_401 == status) {
-          // if (null != authState) {
-          //   signOut();
-          // }
-          // notify(SIGN_IN_FAILURE);
-          router.push(SIGN_URL);
-
+        const status = error && getStatus(error);
+        if (ERROR_FORBIDDEN_403 == status) {
+          if (authState?.id) {
+            signOut(authState?.id);
+          } else {
+            const id = JSON.parse(
+              getItemSessionStorage(AUTH_ATOMS) as string
+            ).id;
+            signOut(id);
+          }
+          notify(SIGN_OUT_SUCCESS);
+          locate(SIGN_URL);
           return Promise.reject(null);
         }
 

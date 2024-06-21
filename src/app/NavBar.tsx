@@ -5,6 +5,8 @@ import { useAuth } from "@/providers/AuthProvider";
 import { useEffect, useState } from "react";
 import useAuthInterceptor from "@/hooks/useAuthInterceptor";
 import axios from "@/utils/axios";
+import { getItemSessionStorage, notify } from "@/utils/common";
+import { AUTH_ATOMS, SIGN_OUT_SUCCESS } from "@/utils/constants";
 
 async function getData() {
   try {
@@ -46,7 +48,21 @@ const NavBar = () => {
         <div className="nav__items">
           {isAuthenticated ? (
             <>
-              <div onClick={() => signOut()}>Sign out</div>
+              <div
+                onClick={() => {
+                  if (authState?.id) {
+                    signOut(authState?.id);
+                  } else {
+                    const id = JSON.parse(
+                      getItemSessionStorage(AUTH_ATOMS) as string
+                    ).id;
+                    signOut(id);
+                  }
+                  notify(SIGN_OUT_SUCCESS);
+                }}
+              >
+                Sign out
+              </div>
               <div onClick={() => router.push("/mypage")}>My page</div>
             </>
           ) : (
