@@ -1,20 +1,21 @@
 "use client";
 
 import React, { createContext, useContext } from "react";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { authAtoms } from "@/atoms/authAtoms";
-import axios from "@/utils/axios";
-import { getDataFromError, notify } from "@/utils/common";
-import { SIGN_OUT_SUCCESS } from "@/utils/constants";
+import { getDataFromError, removeItemSessionStorage } from "@/utils/common";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/utils/constants";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "@/utils/axios";
+import { LOGOUT_URL } from "@/utils/urls";
 
 const AuthContext = createContext({
   signIn: (id: number, email: string) => {},
-  signOut: () => {},
+  signOut: (id: number) => {},
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [authState, setAuthState] = useRecoilState(authAtoms);
+  const setAuthState = useSetRecoilState(authAtoms);
 
   const signIn = (id: number, email: string) => {
     setAuthState({
@@ -23,19 +24,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
-  const signOut = async () => {
+  const signOut = async (id: number) => {
     try {
-      await axios("/api/auth/revoke-all-tokens", {
+      await axios(LOGOUT_URL, {
         method: "POST",
         data: {
-          userId: authState?.id,
+          userId: id,
         },
       });
-      setAuthState(null);
-      notify(SIGN_OUT_SUCCESS);
     } catch (error) {
-      notify(getDataFromError(error));
+      console.error(getDataFromError(error));
     }
+
+    setAuthState(null);
+    removeItemSessionStorage(ACCESS_TOKEN);
+    removeItemSessionStorage(REFRESH_TOKEN);
   };
 
   return (
