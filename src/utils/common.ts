@@ -1,10 +1,24 @@
 import { toast } from "react-toastify";
 import axios from "@/utils/axios";
+import axiosInstance from "@/utils/axios";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/utils/constants";
 
 export const locate = (url: string) => {
   if (typeof window !== "undefined") {
     window.location.href = url;
   }
+};
+
+export const setItemSessionStorage = (key: string, value: string): void => {
+  sessionStorage.setItem(key, value);
+};
+
+export const getItemSessionStorage = (key: string): string | null => {
+  return sessionStorage.getItem(key);
+};
+
+export const removeItemSessionStorage = (key: string): void => {
+  sessionStorage.removeItem(key);
 };
 
 export const getStatus = (error: any): number => {
@@ -13,6 +27,32 @@ export const getStatus = (error: any): number => {
   } = error;
 
   return status;
+};
+
+export const getNewTokens = async (error: any, url: string) => {
+  const refreshToken = getItemSessionStorage(REFRESH_TOKEN);
+
+  try {
+    const res = await axiosInstance(url, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${refreshToken}`,
+      },
+      // @ts-ignore
+      skip: true,
+    });
+    setItemSessionStorage(ACCESS_TOKEN, res.data.accessToken);
+    setItemSessionStorage(REFRESH_TOKEN, res.data.refreshToken);
+
+    return await axiosInstance({
+      ...error.config,
+      // @ts-ignore
+      skip: true,
+    });
+  } catch (tokenError: any) {
+    console.error("getNewTokens error", tokenError);
+    return await Promise.reject(tokenError);
+  }
 };
 
 export const throttle = (limit: number, callback: Function) => {
