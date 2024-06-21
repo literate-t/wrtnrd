@@ -1,6 +1,7 @@
 import axios from "axios";
-import { ERROR_FORBIDDEN_403 } from "@/utils/constants";
-import { getStatus } from "@/utils/common";
+import { ACCESS_TOKEN, ERROR_UNAUTHORIZED_401 } from "@/utils/constants";
+import { getItemSessionStorage, getNewTokens, getStatus } from "@/utils/common";
+import { NEW_TOKEN_URL } from "@/utils/urls";
 
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
@@ -9,6 +10,12 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use((config) => {
   config.withCredentials = true;
   config.headers["Content-Type"] = "application/json";
+
+  const accessToken = getItemSessionStorage(ACCESS_TOKEN);
+
+  if (accessToken && !config.headers.Authorization) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
+  }
 
   return config;
 });
@@ -20,38 +27,12 @@ axiosInstance.interceptors.response.use(
   (error) => {
     const status = getStatus(error);
 
-    if (ERROR_FORBIDDEN_403 == status) {
-      return getNewTokens(error);
+    if (ERROR_UNAUTHORIZED_401 == status && !error.config.skip) {
+      return getNewTokens(error, NEW_TOKEN_URL);
     }
 
     return Promise.reject(error);
   }
 );
-
-const getNewTokens = (config: any) => {
-  const {
-    config: { url: targetUrl, method },
-  } = config;
-
-  return axiosInstance("/api/auth/new-tokens", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }).then((res) => {
-    return axiosInstance(targetUrl, {
-      method,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((res) => {
-      return res;
-    });
-  });
-};
-
-const setValueInSessionStorage = (key: string, value: string) => {
-  sessionStorage.setItem(key, value);
-};
 
 export default axiosInstance;
