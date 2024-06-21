@@ -6,8 +6,12 @@ import styles from "./SignInForm.module.scss";
 import axios from "@/utils/axios";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/providers/AuthProvider";
-import { notify } from "@/utils/common";
-import { SIGN_IN_SUCCESS } from "@/utils/constants";
+import { notify, setItemSessionStorage } from "@/utils/common";
+import {
+  ACCESS_TOKEN,
+  REFRESH_TOKEN,
+  SIGN_IN_SUCCESS,
+} from "@/utils/constants";
 
 interface FormValue {
   username: string;
@@ -40,6 +44,9 @@ const SignInForm = () => {
 
         if (resp.status == 200) {
           signIn(resp.data.id, resp.data.email);
+
+          setItemSessionStorage(ACCESS_TOKEN, resp.data.accessToken);
+          setItemSessionStorage(REFRESH_TOKEN, resp.data.refreshToken);
 
           router.replace("/");
           notify(SIGN_IN_SUCCESS);
