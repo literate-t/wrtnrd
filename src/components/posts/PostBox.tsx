@@ -8,6 +8,7 @@ import axios from "@/utils/axios";
 import { useRecoilValue } from "recoil";
 import { authAtoms } from "@/atoms/authAtoms";
 import { useRouter } from "next/navigation";
+import { SIGN_URL } from "@/utils/urls";
 
 const PostBox = ({ post, onLikeClick }: PostBoxProps) => {
   const [like, setLike] = useState<boolean>(!!post?.like);
@@ -15,21 +16,24 @@ const PostBox = ({ post, onLikeClick }: PostBoxProps) => {
   const router = useRouter();
 
   const handlePostLike = async (id: number | undefined) => {
-    if (null === authState) {
-      router.push("/signin");
-      return;
+    try {
+      const result = await axios("/api/post/like", {
+        method: "POST",
+        data: {
+          userId: authState?.id,
+          postId: post?.id,
+        },
+      });
+
+      onLikeClick && onLikeClick(id);
+      setLike(result.data);
+    } catch (error) {
+      if (null == authState) {
+        router.replace(SIGN_URL);
+        return;
+      }
+      console.error("Post like error", error);
     }
-
-    const result = await axios("/api/post/like", {
-      method: "POST",
-      data: {
-        userId: authState?.id,
-        postId: post?.id,
-      },
-    });
-
-    onLikeClick && onLikeClick(id);
-    setLike(result.data);
   };
 
   return (
